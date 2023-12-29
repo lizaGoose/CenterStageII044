@@ -34,7 +34,7 @@ Intake_mover intmov;
     Intake_mover intakeMover;
     public V4bMover(LinearOpMode opMode) {
         super(opMode);
-        zahvat_perekid = hardwareMap.get(Servo.class, "zahvat_perekid");
+        //zahvat_perekid = hardwareMap.get(Servo.class, "zahvat_perekid");
         scor = new Scorer(opMode);
        intmov = new Intake_mover(opMode);
        v4b = new Virtual4bar(opMode);
@@ -71,11 +71,11 @@ Intake_mover intmov;
             }
         } else if (5 < n && n < 50) {
             scor.scorer.setPosition(0.57);
-            zahvat_perekid.setPosition(0.65);
+          //  zahvat_perekid.setPosition(0.65);
         } else if(50 < n && n < 65) {
             intmov.vidvizh.setPower(0.6);
             intmov.vidvizh.setPower(1);
-            zahvat_perekid.setPosition(0);
+           // zahvat_perekid.setPosition(0);
 
         }
         if(lopata_stopper == 1 && lopata_stopper_intake == 1){
@@ -87,14 +87,14 @@ Intake_mover intmov;
             k = 10;
         }
         if(k<10){
-            zahvat_perekid.setPosition(0.65);
+           // zahvat_perekid.setPosition(0.65);
         }
         else if(k > 10 && k < 12) {
-            zahvat_perekid.setPosition(0);
+            //zahvat_perekid.setPosition(0);
         }
 
         else if ((lopata_stopper == 0 && lopata_stopper_intake == 0)||((gamepad2.left_trigger - gamepad2.right_trigger)* 0.7 !=0)){
-            zahvat_perekid.setPosition(0);
+           // zahvat_perekid.setPosition(0);
         }
 
         /*if(gamepad2.right_stick_y > 0){

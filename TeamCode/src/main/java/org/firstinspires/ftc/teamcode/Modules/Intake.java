@@ -13,7 +13,7 @@ public class Intake extends Robot{
 
     DigitalChannel lineSensor;
 
-    double n = 0, k = 0;
+    double n = 0, k = 0, koef = 1;
 
     /*public enum State_Intake{
         NOTHING,
@@ -80,33 +80,8 @@ public class Intake extends Robot{
         telemetry.addData("n", n);
         telemetry.addData("k", k);
         telemetry.update();
-        /*if(n > 0){
-            if((gamepad2.left_trigger - gamepad2.right_trigger)* 0.7 != 0) {
-                zahvat.setPower(0);
-            }
-            else{
-                n = 0;
-            }
-        }*/
-     if(n > 0 && (gamepad2.left_trigger - gamepad2.right_trigger)* 0.7 > 0){
-            zahvat.setPower(0);
 
-        }
-      if ((gamepad2.left_trigger - gamepad2.right_trigger)* 0.7 == 0){
-            zahvat.setPower((gamepad2.left_trigger - gamepad2.right_trigger)* 0.5);
-            n = 0;
-        }
-        if(n == 0 && k<=11) {
-            zahvat.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * 0.5);
-        }
-        if((gamepad2.left_trigger - gamepad2.right_trigger)* 0.7 < 0){
-            zahvat.setPower((gamepad2.left_trigger - gamepad2.right_trigger)* 0.5);
-            k = 0;
-     }
-
-        /*if(n >= 2 && time <= 15){
-            zahvat.setPower(0);
-        }*/
+            zahvat.setPower((gamepad2.left_trigger - gamepad2.right_trigger)* koef);
 
     }
 }
