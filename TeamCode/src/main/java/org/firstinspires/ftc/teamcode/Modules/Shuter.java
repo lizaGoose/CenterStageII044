@@ -16,19 +16,19 @@ public class Shuter extends Robot {
     public void teleop(){
         taps+=1;
         if (gamepad1.a){
-            equalizer.setPosition(0.2);
+            equalizer.setPosition(0.5);
         }
         if (gamepad1.b){
-            equalizer.setPosition(0.02);
+            equalizer.setPosition(0.3);
         }
         if (gamepad1.x){
             taps = 0;
         }
         if(taps <=6){
-            shuter.setPosition(0.3);
+            shuter.setPosition(0.4);
         }
         else if(6 < taps && taps < 10){
-            shuter.setPosition(0.1);
+            shuter.setPosition(0.4);
         }
       /*  if (taps % 2 == 0 && taps !=0){
             ;

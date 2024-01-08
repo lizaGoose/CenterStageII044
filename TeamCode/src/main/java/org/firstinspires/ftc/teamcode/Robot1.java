@@ -57,7 +57,7 @@ public class Robot1 extends Robot {
                     new Pose2d(-0.5,
                             -0, -0
                     ));
-        }*/ if (gamepad1.dpad_left) {
+        } if (gamepad1.dpad_left) {
             drive.setWeightedDrivePower(
                     new Pose2d(0,
                             0.5, -0
@@ -67,7 +67,7 @@ public class Robot1 extends Robot {
                     new Pose2d(0,
                             -0.5, -0
                     ));
-        } else if (gamepad1.left_bumper) {
+        } if (gamepad1.left_bumper) {
             drive.setWeightedDrivePower(
                     new Pose2d(-0,
                             -0, -0.5
@@ -77,7 +77,7 @@ public class Robot1 extends Robot {
                     new Pose2d(-0,
                             -0, 0.5
                     ));
-        } else {
+        } */
             drive.setWeightedDrivePower(new Pose2d(
                     /*x * Math.cos(heading) + y * Math.sin(heading),                            -1 * x * Math.sin(heading) + y * Math.cos(heading),*/-gamepad1.left_stick_y,
                     -gamepad1.left_stick_x, (-gamepad1.left_trigger + gamepad1.right_trigger)/* + (heading2 - heading) * 0.1*/
@@ -91,4 +91,4 @@ public class Robot1 extends Robot {
             telemetry.update();
         }
     }
-}
+

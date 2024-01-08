@@ -36,8 +36,8 @@ public class PropDetectionRed extends OpenCvPipeline {
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
-        Scalar lowHSV = new Scalar(130, 100, 20);
-        Scalar highHSV = new Scalar(180, 255, 255);
+        Scalar lowHSV = new Scalar(10, 100, 20);
+        Scalar highHSV = new Scalar(30, 255, 255);
 
         Core.inRange(mat, lowHSV, highHSV, mat);
 
@@ -65,18 +65,18 @@ public class PropDetectionRed extends OpenCvPipeline {
         boolean propCenter = centerValue > PERCENT_COLOR_THRESHOLD;
         boolean propRight = rightValue > PERCENT_COLOR_THRESHOLD;
 
-         if (Math.round(centerValue * 100) > 10 && Math.round(rightValue * 100) > 10 ) {
-            location = Location.CENTER;
-            telemetry.addData("Prop Location", "center");
-        }
-
-        else if(Math.round(rightValue * 100) > Math.round(leftValue * 100)) {
+         if (Math.round(leftValue * 100) > 10 ) {
             location = Location.LEFT;
             telemetry.addData("Prop Location", "left");
         }
+
+        else if(Math.round(rightValue * 100) > 20) {
+            location = Location.RIGHT;
+            telemetry.addData("Prop Location", "right");
+        }
          else{
-             location = Location.RIGHT;
-             telemetry.addData("Prop Location", "right");
+             location = Location.CENTER;
+             telemetry.addData("Prop Location", "center");
          }
 
         telemetry.update();

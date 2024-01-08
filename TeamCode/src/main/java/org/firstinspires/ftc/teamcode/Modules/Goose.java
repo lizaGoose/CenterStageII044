@@ -16,7 +16,7 @@ public class Goose {
     Gamepad gamepad1;
     Servo podves1;
     Servo podves2;
-    double pd11 = 0, pd12 = 1, e = 50, pd21 = 0.3, pd22 = 0.75;
+    double pd11 = 0, pd12 = 1, e = 50, pd21 = 0, pd22 = 0.75;
     public Goose(LinearOpMode linearOpMode) {
         this.linearOpMode = linearOpMode;
         hardwareMap = linearOpMode.hardwareMap;
@@ -27,11 +27,9 @@ public class Goose {
     public void teleop(){
 
         if (gamepad1.dpad_down) {
-            e = 0;
             podves1.setPosition(pd11);
             podves2.setPosition(pd22);
         }
-        e+=1;
 
         if (gamepad1.dpad_up) {
             podves1.setPosition(pd12);

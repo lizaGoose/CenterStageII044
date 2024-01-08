@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
+import android.hardware.Sensor;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,12 +17,16 @@ public class Intake_mover {
     HardwareMap hardwareMap;
     Gamepad gamepad2;
     DcMotor vidvizh;
+
+    IntakeSecondVersion intake;
+
     double error, kp = 0.6;
 
     public Intake_mover(LinearOpMode linearOpMode) {
         this.linearOpMode = linearOpMode;
         hardwareMap = linearOpMode.hardwareMap;
-        gamepad2 = linearOpMode.gamepad2;
+        gamepad2 = linearOpMode.gamepad1;
+        intake = new IntakeSecondVersion(linearOpMode);
         vidvizh = hardwareMap.get(DcMotor.class, "vidvizhenie_zahvata");
         vidvizh.setDirection(DcMotorSimple.Direction.FORWARD);
         vidvizh.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -33,13 +39,15 @@ public class Intake_mover {
                 vidvizh.setPower(0.8);
             }
         }*/
+
+    if (intake.d > 0){
+        intake.SmartButton();
+    }
+    else {
         vidvizh.setPower(gamepad2.right_stick_y);
-        if (vidvizh.getCurrentPosition() > -80 && gamepad2.right_stick_y == 0 && vidvizh.getCurrentPosition() < 0) {
-            vidvizh.setPower(0.8);
-        }
-        if (vidvizh.getCurrentPosition() >= 0 && gamepad2.right_stick_y <= 0) {
-            vidvizh.setPower(0);
-        }
+    }
+
+
     }
 
 
