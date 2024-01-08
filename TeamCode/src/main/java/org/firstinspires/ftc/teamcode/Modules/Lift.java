@@ -3,13 +3,15 @@ package org.firstinspires.ftc.teamcode.Modules;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
 public class Lift extends Robot {
     DcMotor lift1, lift2;
     //Virtual4bar v4b;
-    double pos1 = 0, pos2 = 190, a = 0;
+    double pos1 = 0, pos2 = 300, a = 0, b = 0, pos3 = 200;
+    Servo scorer;
 
     double kp = 0.4;
 
@@ -26,6 +28,8 @@ public class Lift extends Robot {
         lift2.setDirection(DcMotorSimple.Direction.REVERSE);
         lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        scorer = hardwareMap.get(Servo.class, "skorer");
 
 
     }
@@ -58,6 +62,24 @@ public class Lift extends Robot {
         if (gamepad2.y||gamepad1.y){
             a+=1;
 
+        }
+        if (gamepad2.x) {
+        b+=1;
+        }
+        if(b>0){
+            b+=1;
+            if(b < 150) {
+                scorer.setPosition(0.45);
+            }
+            else {
+                double error2 = pos3 - lift1.getCurrentPosition();
+                if (error2 > 0) {
+                    lift1.setPower(error2 * kp);
+                    lift2.setPower(error2 * kp);
+                } else {
+                    b = 0;
+                }
+            }
         }
         if(a>0){
             if (lift1.getCurrentPosition() >= 0){

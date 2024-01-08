@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Robot;
 
 public class Scorer extends Robot {
-    Servo scorer, mover, perekid1, perekid2, scor;;
+    Servo scorer, mover, perekid1, perekid2, scor;
     Virtual4bar v4b;
     double sc1 = 0.35, sc2 = 0.6;
     double t = 10;

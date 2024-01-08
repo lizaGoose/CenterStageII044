@@ -20,7 +20,7 @@ public class IntakeSecondVersion extends Robot {
     Gamepad gamepad1;
     DcMotor zahvat,lift1, lift2;;
 
-    double n = 10, k = 0, d = 0, e = 0, t = 0, z = 0, y = 0, a = 0, b = 0, pos1 = 170, kp = 0.8, c = 0;
+    double n = 10, k = 0, d = 0, e = 0, t = 0, z = 0, y = 0, a = 0, b = 0, pos2 = 400, pos3 = 200,kp = 0.8, c = 0;
     DigitalChannel lineSensor, lineSensor2;
     DcMotor vidvizh;
 
@@ -147,17 +147,36 @@ public class IntakeSecondVersion extends Robot {
            scor.setPosition(0);*/
         }
         n+=1;
-        if(n < 10){
+        if(n < 150){
             intake.setPower(-1);
         }
         if (gamepad2.x){
             n = 0;
             b = 0;
-            scor.setPosition(0.5);
+
+            c+=1;
+
+            //   scor.scorStart();
+            mover.setPosition(0.39);
+       /*     perekid2.setPosition(0.55);//ниже больше
+            perekid1.setPosition(0.45);*/
         }
+
         if (gamepad2.b){
             z +=1;
             b+=1;
+        }
+        /*if(c > 0){
+         double error2 = vidvizh.getCurrentPosition() + pos3 ;
+            if(error2 > 0) {
+                vidvizh.setPower(error2*kp);
+            }
+            else {
+                c = 0;
+            }
+        }*/
+        if (vidvizh.getCurrentPosition() < - 300 && gamepad1.right_stick_y == 0){
+            vidvizh.setPower(0.2);
         }
         if (z >0){
             mover.setPosition(0.39);
@@ -185,13 +204,10 @@ public class IntakeSecondVersion extends Robot {
 
 
             if (gamepad2.x) {
-                //   scor.scorStart();
-
-                mover.setPosition(0.39);
-                perekid2.setPosition(0.55);//ниже больше
-                perekid1.setPosition(0.45);//ниже меньше
+             //ниже меньше
                 //scor.scorer.setPosition(0);
             }
+
             if (gamepad2.b) {
                 // scor.scorStart();
 
@@ -244,6 +260,14 @@ public class IntakeSecondVersion extends Robot {
             e += 1;
         }
 
+        if (gamepad1.dpad_left || gamepad1.dpad_right){
+            a = 0;
+            d = 0;
+            y = 0;
+            k = 0;
+            t = 0;
+            e = 0;
+        }
         if (e == 0 && d != 0) {
 
             vidvizh.setPower(gamepad1.right_stick_y);
@@ -252,14 +276,8 @@ public class IntakeSecondVersion extends Robot {
                 e = 0;
                 scor.setPosition(0);
                 mover.setPosition(0.39);
-                if(vidvizh.getCurrentPosition() < -200) {
                     perekid2.setPosition(0.98);
                     perekid1.setPosition(0.02);
-                }
-                else if (vidvizh.getCurrentPosition() > -200){
-                    perekid2.setPosition(0.88);
-                    perekid1.setPosition(0.12);
-                }
                 intake.setPower(-1);
                 zahvat.setPower(1);
             }
@@ -281,28 +299,42 @@ public class IntakeSecondVersion extends Robot {
         } else if (e > 0) {
             e += 1;
             zahvat.setPower(0);
-            if (e < 30) {
+            if (e < 15) {
                 intake.setPower(1);
-            } else if (e > 30 && e < 42) {
+            } else if (e > 15 && e < 27) {
                 intake.setPower(-1);
 
             } else {
                 if (a == 0) {
-                    perekid2.setPosition(0.98);
-                    perekid1.setPosition(0.02);
+                    if (lift1.getCurrentPosition() >= 0){
+                        lift1.setPower(-1);
+                        lift2.setPower(-1);
+                    }
                     if (vidvizh.getCurrentPosition() < -80) {
                         vidvizh.setPower(1);
                         intake.setPower(0);
                     } else {
                         a += 1;
+
                     }
                 }
                 if (a != 0) {
                     vidvizh.setPower(gamepad1.right_stick_y);
 
-                    if( (lineSensor.getState() != true || lineSensor2.getState() != true) && y < 200) {
+                    if (lineSensor.getState() != true || lineSensor2.getState() != true) {
                            y+=1;
-                        intake.setPower(-1);
+                           if (y < 100) {
+                               intake.setPower(-1);
+                           }
+                           else {
+                               intake.setPower(0);
+                               a = 0;
+                               d = 0;
+                               y = 0;
+                               k = 0;
+                               t = 0;
+                               e = 0;
+                           }
                     } else {
                           /*  y +=1;
                             if (y < 10){
