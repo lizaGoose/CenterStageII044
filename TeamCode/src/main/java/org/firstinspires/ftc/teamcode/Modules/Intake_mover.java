@@ -44,6 +44,7 @@ public class Intake_mover {
         intake.SmartButton();
     }
     else {
+
         vidvizh.setPower(gamepad2.right_stick_y);
     }
 

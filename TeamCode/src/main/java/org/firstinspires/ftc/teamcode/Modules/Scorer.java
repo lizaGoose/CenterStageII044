@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
 public class Scorer extends Robot {
     Servo scorer, mover, perekid1, perekid2, scor;
+    DcMotor lift1, lift2;
     Virtual4bar v4b;
     double sc1 = 0.35, sc2 = 0.6;
-    double t = 10;
+    double t = 30;
 
     public Scorer(LinearOpMode opMode) {
         super(opMode);
@@ -19,22 +22,52 @@ public class Scorer extends Robot {
         mover = hardwareMap.get(Servo.class, "skorMover");
         scor = hardwareMap.get(Servo.class, "skorer");
         v4b = new Virtual4bar(opMode);
+        lift1 = hardwareMap.get(DcMotor.class, "lift1");
+        lift1.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //lift
+
+        lift2 = hardwareMap.get(DcMotor.class, "lift2");
+        lift2.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-    public void teleop(){
-        t+=1;
+
+    public void teleop() {
+        t += 1;
         if (gamepad2.a) {
-            scorer.setPosition(0.5);
+            scorer.setPosition(0.8);
         }
-        if (gamepad2.y){
+        if (gamepad2.y) {
             t = 0;
-           // t = 10;
+            // t = 10;
+            scorer.setPosition(0);
+        }
+        if(t > 20 && t < 26) {
+            double pos = lift1.getCurrentPosition() + 300;
+
+            double error3 = pos - lift1.getCurrentPosition();
+            if (error3 > 0) {
+                //mover.setPosition(0.39);
+                lift1.setPower(error3 * 0.4);
+                lift2.setPower(error3 * 0.4);
+            }
+            else{
+                // mover.setPosition(0.39);
+            }
+            //perekid2.setPosition(0.98);
+            //perekid1.setPosition(0.02);
+        }
+        if (gamepad2.dpad_up) {
             scorer.setPosition(0.01);
         }
-        if(t > 5 && t < 10){
-            mover.setPosition(0.39);
-            perekid2.setPosition(0.98);
-            perekid1.setPosition(0.02);
+        if (gamepad2.dpad_down) {
+            scorer.setPosition(0.8);
         }
+
+      /*
+        }*/
 
         /*if ( 20 < t && t < 22){
             scorer.setPosition(0.57);

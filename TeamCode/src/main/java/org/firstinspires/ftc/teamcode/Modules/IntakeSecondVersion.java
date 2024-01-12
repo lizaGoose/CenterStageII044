@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
@@ -15,12 +16,13 @@ public class IntakeSecondVersion extends Robot {
 
     Servo mover, perekid1, perekid2, scor;
     Intake intk;
+    public boolean PixeIsIn = false;
     Lift lift;
 
     Gamepad gamepad1;
     DcMotor zahvat,lift1, lift2;;
 
-    double n = 10, k = 0, d = 0, e = 0, t = 0, z = 0, y = 0, a = 0, b = 0, pos2 = 400, pos3 = 200,kp = 0.8, c = 0;
+    double n = 50, k = 0, d = 0, e = 0, t = 0, z = 0, y = 0, a = 0, b = 0, pos2 = 400, pos3 = 200,kp = 0.8, c = 0;
     DigitalChannel lineSensor, lineSensor2;
     DcMotor vidvizh;
 
@@ -136,6 +138,12 @@ public class IntakeSecondVersion extends Robot {
             n +=1;
         }*/
 
+        /*if (gamepad1.y){
+            c+=1;
+        }
+        if (c==0 && gamepad1.right_stick_y==0&& vidvizh.getCurrentPosition() < -200){
+            vidvizh.setPower();
+        }*/
 
         if (/*vidvizh.getCurrentPosition() < -80 || */gamepad1.y) {
             d += 1;
@@ -147,24 +155,37 @@ public class IntakeSecondVersion extends Robot {
            scor.setPosition(0);*/
         }
         n+=1;
-        if(n < 150){
+        /*if(n < 50){
             intake.setPower(-1);
-        }
+        }*/
         if (gamepad2.x){
             n = 0;
             b = 0;
-
             c+=1;
 
-            //   scor.scorStart();
+            a = 0;
+            d = 0;
+            y = 0;
+            k = 0;
+            t = 0;
+            e = 0;
             mover.setPosition(0.39);
-       /*     perekid2.setPosition(0.55);//ниже больше
-            perekid1.setPosition(0.45);*/
+
         }
 
+        if (c>0){
+            c+=1;
+            if (c<50){
+                intake.setPower(0);
+                zahvat.setPower(0);
+            }
+        }
         if (gamepad2.b){
-            z +=1;
+            //z +=1;
             b+=1;
+        }
+        if(gamepad2.y){
+            z+=1;
         }
         /*if(c > 0){
          double error2 = vidvizh.getCurrentPosition() + pos3 ;
@@ -175,22 +196,36 @@ public class IntakeSecondVersion extends Robot {
                 c = 0;
             }
         }*/
-        if (vidvizh.getCurrentPosition() < - 300 && gamepad1.right_stick_y == 0){
-            vidvizh.setPower(0.2);
-        }
-        if (z >0){
+
+       /*  if (z >0){
+            z +=1;
             mover.setPosition(0.39);
-            if (lift1.getCurrentPosition() >= 0){
-                lift1.setPower(-1);
-                lift2.setPower(-1);
+            if(z<15){
+                scor.setPosition(0);
             }
-            else {
-                z = 0;
-            }
-        }
-        if (b > 0){
+           else{
+                if (lift1.getCurrentPosition() >= 0) {
+                    lift1.setPower(-1);
+                    lift2.setPower(-1);
+                } else {
+                    z = 0;
+                    perekid2.setPosition(0.98);
+                    perekid1.setPosition(0.02);
+                }
+            }*/
+        //}
+        if (b > 0&&b < 5){
+            b+=1;
             mover.setPosition(0.39);
             scor.setPosition(0);
+        }
+        else if(b>5&&b<30){
+
+            perekid2.setPosition(0.55);
+            perekid1.setPosition(0.45);
+        }
+        else {
+            b=0;
         }
         if (z == 0){
             lift.teleop();
@@ -200,8 +235,14 @@ public class IntakeSecondVersion extends Robot {
             SmartButton();
         } else {
             zahvat.setPower(0);
-            vidvizh.setPower(gamepad1.right_stick_y);
+          //  vidvizh.setPower(gamepad1.right_stick_y);
 
+            if (vidvizh.getCurrentPosition() < -80 && gamepad1.right_stick_y == 0 && vidvizh.getCurrentPosition() > -400){
+                vidvizh.setPower(0.4);
+            }
+            else {
+                vidvizh.setPower(gamepad1.right_stick_y);
+            }
 
             if (gamepad2.x) {
              //ниже меньше
@@ -216,12 +257,12 @@ public class IntakeSecondVersion extends Robot {
 
             }
 
-            if (gamepad1.dpad_left) {
-                intake.setPower(-0.5);
-                zahvat.setPower(0.5);
-            } else if (gamepad1.dpad_right) {
-                intake.setPower(0.5);
-                zahvat.setPower(-0.5);
+            if (gamepad1.left_bumper) {
+                intake.setPower(-1);
+                zahvat.setPower(1);
+            } else if (gamepad1.right_bumper) {
+                intake.setPower(1);
+                zahvat.setPower(-1);
             } else {
                 intake.setPower(0);
                 zahvat.setPower(0);
@@ -260,7 +301,7 @@ public class IntakeSecondVersion extends Robot {
             e += 1;
         }
 
-        if (gamepad1.dpad_left || gamepad1.dpad_right){
+        if (gamepad1.left_bumper || gamepad1.right_bumper){
             a = 0;
             d = 0;
             y = 0;
@@ -323,7 +364,7 @@ public class IntakeSecondVersion extends Robot {
 
                     if (lineSensor.getState() != true || lineSensor2.getState() != true) {
                            y+=1;
-                           if (y < 100) {
+                          if (y < 100) {
                                intake.setPower(-1);
                            }
                            else {
@@ -424,6 +465,51 @@ public class IntakeSecondVersion extends Robot {
                 d = 0;
             }*/
         }
+    }
+    public void Autonomous(){
+
+        ElapsedTime time = new  ElapsedTime();
+        while (time.milliseconds() < 10000) {
+
+            if (lineSensor2.getState() != true) {
+                PixeIsIn = true;
+            }
+            if (PixeIsIn == false) {
+                zahvat.setPower(1);
+                intake.setPower(-1);
+            }
+            if (PixeIsIn == true) {
+                while (lineSensor.getState() != true || lineSensor2.getState() != true) {
+                    zahvat.setPower(1);
+                    intake.setPower(-1);
+                }
+                zahvat.setPower(0);
+                intake.setPower(0);
+                scor.setPosition(0.8);
+            }
+        }
+    }
+    public void Autonomous2(){
+        perekid2.setPosition(0.55);
+        perekid1.setPosition(0.45);
+
+    }
+    public void Autonomoys3(){
+        mover.setPosition(0.73);
+
+    }
+    public void Autonomous4(){
+        scor.setPosition(0);
+    }
+    public void Autonomous5(){
+        mover.setPosition(0.39);
+    }
+    public void Autonomous6(){
+        perekid2.setPosition(0.98);
+        perekid1.setPosition(0.02);
+    }
+    public void Autonomoys7(){
+        mover.setPosition(0.08);
     }
 }
 

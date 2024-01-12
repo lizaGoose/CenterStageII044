@@ -37,7 +37,7 @@ public class TeleOp extends LinearOpMode {
         while (!isStopRequested()) {
             goose.teleop();
             intake.teleop();
-           // intmov.teleop();
+          //  intmov.teleop();
            // intake_2.teleop();
             lift.teleop();
             scor.teleop();

@@ -20,25 +20,25 @@ public class SkorMover extends Robot {
 
     public void teleop() {
 
-        if (gamepad2.right_trigger > 0.3 ) {
-            t += 1;
-            scor.setPosition(0.6);
-            mover.setPosition(0.73);
-        }
         if (gamepad2.right_bumper) {
             t += 1;
+            scor.setPosition(0.8);
+            mover.setPosition(0.73);
+        }
+        if (gamepad2.right_trigger > 0.3 ) {
+            t += 1;
             // t = 10;
-            scor.setPosition(0.6);
+            scor.setPosition(0.8);
             mover.setPosition(0.08);
         }
-        if (gamepad2.right_stick_y != 0){
+        if (gamepad2.right_stick_y > 0.7 && gamepad2.right_stick_y < -0.7){
             t += 1;
             mover.setPosition(0.39);
         }
-        if(gamepad2.x){
+      /*  if(gamepad2.x){
             t += 1;
             scor.setPosition(0.5);
-        }
+        }*/
         if(t == 0){
             mover.setPosition(0.39);
         }
