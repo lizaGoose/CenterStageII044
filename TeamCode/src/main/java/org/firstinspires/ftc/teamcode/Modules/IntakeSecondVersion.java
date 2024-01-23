@@ -219,11 +219,11 @@ public class IntakeSecondVersion extends Robot {
             mover.setPosition(0.39);
             scor.setPosition(0);
         }
-        else if(b>5&&b<30){
+       /* else if(b>5&&b<30){
 
             perekid2.setPosition(0.55);
             perekid1.setPosition(0.45);
-        }
+        }*/
         else {
             b=0;
         }
@@ -237,7 +237,7 @@ public class IntakeSecondVersion extends Robot {
             zahvat.setPower(0);
           //  vidvizh.setPower(gamepad1.right_stick_y);
 
-            if (vidvizh.getCurrentPosition() < -80 && gamepad1.right_stick_y == 0 && vidvizh.getCurrentPosition() > -400){
+            if (vidvizh.getCurrentPosition() <= 0 && gamepad1.right_stick_y == 0 && vidvizh.getCurrentPosition() > -500){
                 vidvizh.setPower(0.4);
             }
             else {
@@ -364,8 +364,8 @@ public class IntakeSecondVersion extends Robot {
 
                     if (lineSensor.getState() != true || lineSensor2.getState() != true) {
                            y+=1;
-                          if (y < 100) {
-                               intake.setPower(-1);
+                          if (y > 5 && y < 100) {
+                              // intake.setPower(-1);
                            }
                            else {
                                intake.setPower(0);
@@ -510,6 +510,71 @@ public class IntakeSecondVersion extends Robot {
     }
     public void Autonomoys7(){
         mover.setPosition(0.08);
+    }
+    public void IntakeFromSteak(){
+        ElapsedTime t = new ElapsedTime();
+        while (t.milliseconds()<200){
+            zahvat.setPower(-1);
+        }
+        zahvat.setPower(0);
+
+    }
+    public void Steak(){
+        ElapsedTime t = new ElapsedTime();
+        if (t.milliseconds() < 300){
+            intake.setPower(0);
+            zahvat.setPower(0);
+        }
+        if(lineSensor2.getState() == true){
+            intake.setPower(-1);
+            zahvat.setPower(1);
+        }
+        if(t.milliseconds() < 4000 && t.milliseconds() > 300) {
+            zahvat.setPower(1);
+            intake.setPower(-1);
+        }
+        scor.setPosition(0.8);
+        zahvat.setPower(-1);
+        intake.setPower(1);
+        opMode.sleep(1500);
+       /* while (lineSensor.getState() == true){
+            intake.setPower(1);
+            zahvat.setPower(0);
+        }*/
+       /* while (t.milliseconds() < 1000){
+            intake.setPower(-1);
+            zahvat.setPower(-1);
+        }*/
+        intake.setPower(0);
+        zahvat.setPower(0);
+    }
+    public void lift(){
+        double error2 = 250 - lift1.getCurrentPosition();
+        while (error2 > 0) {
+            lift1.setPower(error2 * kp);
+            lift2.setPower(error2 * kp);
+            error2 = 250 - lift1.getCurrentPosition();
+        }
+            lift1.setPower(0);
+            lift2.setPower(0);
+    }
+    public void lift2(){
+        double error2 = 0 - lift1.getCurrentPosition();
+        while (error2 < 0) {
+            lift1.setPower(error2 * kp);
+            lift2.setPower(error2 * kp);
+            error2 = 0 - lift1.getCurrentPosition();
+        }
+        lift1.setPower(0);
+        lift2.setPower(0);
+    }
+    public void intikeWhileRunning(){
+        zahvat.setPower(1);
+        intake.setPower(-1);
+    }
+    public void stopIntake(){
+        zahvat.setPower(0);
+        intake.setPower(0);
     }
 }
 

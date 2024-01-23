@@ -5,6 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Camera.PropDetection;
@@ -22,15 +24,20 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 @Config
 @Autonomous(group = "drive")
-public class SpikeRedRight extends LinearOpMode {
+public class IntakeSecondPixelRed extends LinearOpMode {
     Robot1 R;
     SpikeScorer scorer;
     IntakeSecondVersion intake;
+    DcMotor zahvat;
     OpenCvCamera cam;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        zahvat = hardwareMap.get(DcMotor.class, "zahvat");
+        zahvat.setDirection(DcMotorSimple.Direction.FORWARD);
+        zahvat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        zahvat.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         R = new Robot1(this);
         scorer = new SpikeScorer(this);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -47,11 +54,14 @@ public class SpikeRedRight extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(-18.25, 28, 0))
                 .build();
         TrajectorySequence SteakRunning = R.drive.trajectorySequenceBuilder(firstCenter.end())
-                .lineToLinearHeading(new Pose2d(-21, 34, 0))
+                .lineToLinearHeading(new Pose2d(-23, 39, 0))
+                .build();
+        TrajectorySequence SteakRunning2 = R.drive.trajectorySequenceBuilder(SteakRunning.end())
+                .lineToLinearHeading(new Pose2d(-25, 39, 0))
                 .build();
         TrajectorySequence UnderFermRunning = R.drive.trajectorySequenceBuilder(firstCenter.end())
                 .lineToLinearHeading(new Pose2d(-24, 50, 0))
-                .lineToLinearHeading(new Pose2d(53, 48, 0))
+                .lineToLinearHeading(new Pose2d(53, 52, 0))
                 .build();
         TrajectorySequence BackDropRunning = R.drive.trajectorySequenceBuilder(UnderFermRunning.end())
                 .lineToLinearHeading(new Pose2d(92, 28.5, 0))
@@ -59,13 +69,14 @@ public class SpikeRedRight extends LinearOpMode {
         TrajectorySequence Parking = R.drive.trajectorySequenceBuilder(BackDropRunning.end())
                 .lineToLinearHeading(new Pose2d(80, 45, 0))
                 .build();
-        TrajectorySequence UnderFermRunningLeft = R.drive.trajectorySequenceBuilder(firstRight.end())
+        TrajectorySequence UnderFermRunningLeft = R.drive.trajectorySequenceBuilder(SteakRunning2.end())
                 .lineToLinearHeading(new Pose2d(-22, 28, 0))
+                .addTemporalMarker(() -> {zahvat.setPower(-1);})
                 .lineToLinearHeading(new Pose2d(-22, 52))
-                .lineToLinearHeading(new Pose2d(48, 50, 0))
+                .lineToLinearHeading(new Pose2d(48, 54, 0))
                 .build();
         TrajectorySequence BackDropRunningLeft = R.drive.trajectorySequenceBuilder(UnderFermRunningLeft.end())
-                .lineToLinearHeading(new Pose2d(91, 24.5, 0))
+                .lineToLinearHeading(new Pose2d(92, 26.5, 0))
                 .build();
         TrajectorySequence ParkingLeft = R.drive.trajectorySequenceBuilder(BackDropRunningLeft.end())
                 .lineToLinearHeading(new Pose2d(80, 15, 0))
@@ -73,10 +84,10 @@ public class SpikeRedRight extends LinearOpMode {
                 .build();
         TrajectorySequence UnderFermRunningRight = R.drive.trajectorySequenceBuilder(firstLeft.end())
                 .lineToLinearHeading(new Pose2d(-25, 48, 0))
-                .lineToLinearHeading(new Pose2d(50, 48, 0))
+                .lineToLinearHeading(new Pose2d(50, 56, 0))
                 .build();
         TrajectorySequence BackDropRunningRight = R.drive.trajectorySequenceBuilder(UnderFermRunningRight.end())
-                .lineToLinearHeading(new Pose2d(92, 21.5, 0))
+                .lineToLinearHeading(new Pose2d(92, 22, 0))
                 .build();
         TrajectorySequence ParkingRight = R.drive.trajectorySequenceBuilder(BackDropRunningRight.end())
                 .lineToLinearHeading(new Pose2d(80, 15, 0))
@@ -114,55 +125,57 @@ public class SpikeRedRight extends LinearOpMode {
                     R.drive.followTrajectorySequence(firstRight);
                     scorer.scor();
                     R.drive.followTrajectorySequence(UnderFermRunningLeft);
-                    sleep(8500);
+                    sleep(5000);
                     R.drive.followTrajectorySequence(BackDropRunningLeft);
-                    intake.lift();
                     intake.Autonomous2();
-                    sleep(2500);
+                    sleep(1000);
                     intake.Autonomoys3();
                     sleep(1000);
                     intake.Autonomous4();
-                    sleep(1000);
+                    sleep(500);
                     intake.Autonomous5();;
-                    sleep(1000);
+                    sleep(500);
                     intake.Autonomous6();
                     R.drive.followTrajectorySequence(ParkingLeft);
-                    intake.lift2();
                     break;
                 case RIGHT:
                     R.drive.followTrajectorySequence(firstLeft);
                     scorer.scor();
                     R.drive.followTrajectorySequence(UnderFermRunningRight);
-                    sleep(10000);
+                    sleep(5000);
                     R.drive.followTrajectorySequence(BackDropRunningRight);
-                    intake.lift();
                     intake.Autonomous2();
-                    sleep(2500);
+                    sleep(1000);
                     intake.Autonomoys7();
                     sleep(1000);
                     intake.Autonomous4();
-                    sleep(1000);
+                    sleep(500);
                     intake.Autonomous5();;
-                    sleep(1000);
+                    sleep(500);
                     intake.Autonomous6();
                     R.drive.followTrajectorySequence(ParkingRight);
                     break;
                 case CENTER:
                     R.drive.followTrajectorySequence(firstCenter);
                     scorer.scor();
-                    R.drive.followTrajectorySequence(UnderFermRunning);
-                    sleep(7500);
+                    R.drive.followTrajectorySequence(SteakRunning);
+                    intake.IntakeFromSteak();
+                    sleep(100);
+                    R.drive.followTrajectorySequence(SteakRunning2);
+                    intake.Steak();
+                    /*R.drive.followTrajectorySequence(UnderFermRunning);
+                    sleep(5000);
                     R.drive.followTrajectorySequence(BackDropRunning);
                     intake.Autonomous2();
-                    sleep(2500);
+                    sleep(1000);
                     intake.Autonomoys7();
                     sleep(1000);
                     intake.Autonomous4();
-                    sleep(1000);
-                    intake.Autonomous5();
-                    sleep(1000);
+                    sleep(500);
+                    intake.Autonomous5();;
+                    sleep(500);
                     intake.Autonomous6();
-                    R.drive.followTrajectorySequence(Parking);
+                    R.drive.followTrajectorySequence(Parking);*/
                     break;
                 case NOT_FOUND:
             }

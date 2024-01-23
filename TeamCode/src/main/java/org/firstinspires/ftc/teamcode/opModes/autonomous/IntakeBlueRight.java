@@ -1,27 +1,27 @@
 package org.firstinspires.ftc.teamcode.opModes.autonomous;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+        import com.acmerobotics.dashboard.config.Config;
+        import com.acmerobotics.roadrunner.geometry.Pose2d;
+        import com.acmerobotics.roadrunner.trajectory.Trajectory;
+        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Camera.PropDetection;
-import org.firstinspires.ftc.teamcode.Modules.IntakeSecondVersion;
-import org.firstinspires.ftc.teamcode.Modules.SpikeScorer;
-import org.firstinspires.ftc.teamcode.Robot1;
+        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+        import org.firstinspires.ftc.teamcode.Camera.PropDetection;
+        import org.firstinspires.ftc.teamcode.Modules.IntakeSecondVersion;
+        import org.firstinspires.ftc.teamcode.Modules.SpikeScorer;
+        import org.firstinspires.ftc.teamcode.Robot1;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
+        import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+        import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+        import org.openftc.easyopencv.OpenCvCamera;
+        import org.openftc.easyopencv.OpenCvCameraFactory;
+        import org.openftc.easyopencv.OpenCvCameraRotation;
+        import org.openftc.easyopencv.OpenCvInternalCamera;
 
 @Config
 @Autonomous(group = "drive")
-public class SpikeBlueRight extends LinearOpMode {
+public class IntakeBlueRight extends LinearOpMode {
     Robot1 R;
     IntakeSecondVersion intake;
     SpikeScorer scorer;
@@ -37,7 +37,7 @@ public class SpikeBlueRight extends LinearOpMode {
         TrajectorySequence firstCenter = R.drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(-5, -38.8, 0))
                 //.splineToLinearHeading(new Pose2d(0,-2,Math.toRadians(0)),Math.toRadians(0))
-              //  .strafeRight(20)
+                //  .strafeRight(20)
                 .build();
         TrajectorySequence firstLeft = R.drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(3, -29, 0))
@@ -49,17 +49,30 @@ public class SpikeBlueRight extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(-30, -34, 0))
                 .build();
         TrajectorySequence UnderFermRunning = R.drive.trajectorySequenceBuilder(firstCenter.end())
-                .lineToLinearHeading(new Pose2d(-15, -48, 0))
+                .lineToLinearHeading(new Pose2d(-22, -52, 0))
+                .addDisplacementMarker(20,() -> {
+                    intake.Steak();
+                })
+                .waitSeconds(2)
+                .addTemporalMarker(5,() -> {
+                    intake.intikeWhileRunning();
+                })
                 .lineToLinearHeading(new Pose2d(48, -56, 0))
                 .build();
         TrajectorySequence BackDropRunning = R.drive.trajectorySequenceBuilder(UnderFermRunning.end())
+                .addDisplacementMarker(() -> {
+                    intake.stopIntake();
+                })
                 .lineToLinearHeading(new Pose2d(92, -28.5, 0))
                 .build();
         TrajectorySequence Parking = R.drive.trajectorySequenceBuilder(BackDropRunning.end())
                 .lineToLinearHeading(new Pose2d(77, -40, 0))
                 .build();
         TrajectorySequence UnderFermRunningLeft = R.drive.trajectorySequenceBuilder(firstLeft.end())
-                .lineToLinearHeading(new Pose2d(-15, -48, 0))
+                .lineToLinearHeading(new Pose2d(-22, -52, 0))
+                .addDisplacementMarker(54,() -> {
+                    intake.Steak();
+                })
                 .lineToLinearHeading(new Pose2d(56, -56, 0))
                 .build();
         TrajectorySequence BackDropRunningLeft = R.drive.trajectorySequenceBuilder(UnderFermRunningLeft.end())
@@ -70,8 +83,11 @@ public class SpikeBlueRight extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(80, -40, 0))
                 .build();
         TrajectorySequence UnderFermRunningRight = R.drive.trajectorySequenceBuilder(firstRight.end())
-                .lineToLinearHeading(new Pose2d(-25, -30, 0))
-                .lineToLinearHeading(new Pose2d(-25, -52, 0))
+                .lineToLinearHeading(new Pose2d(-20, -30, 0))
+                .lineToLinearHeading(new Pose2d(-22, -52, 0))
+                .addDisplacementMarker(11,() -> {
+                    intake.Steak();
+                })
                 .lineToLinearHeading(new Pose2d(53, -56, 0))
                 .build();
         TrajectorySequence BackDropRunningRight = R.drive.trajectorySequenceBuilder(UnderFermRunningRight.end())
@@ -110,10 +126,9 @@ public class SpikeBlueRight extends LinearOpMode {
                 case LEFT:
                     R.drive.followTrajectorySequence(firstRight);
                     scorer.scor();
-
                     R.drive.followTrajectorySequence(UnderFermRunningRight);
                     R.drive.followTrajectorySequence(BackDropRunningRight);
-                    intake.Autonomous2();
+                    /*intake.Autonomous2();
                     sleep(1000);
                     intake.Autonomoys7();
                     sleep(1000);
@@ -121,7 +136,7 @@ public class SpikeBlueRight extends LinearOpMode {
                     sleep(500);
                     intake.Autonomous5();;
                     sleep(500);
-                    intake.Autonomous6();
+                    intake.Autonomous6();*/
                     R.drive.followTrajectorySequence(ParkingRight);
                     break;
 
@@ -130,7 +145,7 @@ public class SpikeBlueRight extends LinearOpMode {
                     scorer.scor();
                     R.drive.followTrajectorySequence(UnderFermRunningLeft);
                     R.drive.followTrajectorySequence(BackDropRunningLeft);
-                    intake.Autonomous2();
+                    /*intake.Autonomous2();
                     sleep(1000);
                     intake.Autonomoys3();
                     sleep(1000);
@@ -138,17 +153,16 @@ public class SpikeBlueRight extends LinearOpMode {
                     sleep(500);
                     intake.Autonomous5();;
                     sleep(500);
-                    intake.Autonomous6();
+                    intake.Autonomous6();*/
                     R.drive.followTrajectorySequence(ParkingLeft);
 
                     break;
                 case CENTER:
                     R.drive.followTrajectorySequence(firstCenter);
                     scorer.scor();
-
                     R.drive.followTrajectorySequence(UnderFermRunning);
                     R.drive.followTrajectorySequence(BackDropRunning);
-                    intake.Autonomous2();
+                    /*intake.Autonomous2();
                     sleep(1000);
                     intake.Autonomoys3();
                     sleep(1000);
@@ -156,7 +170,7 @@ public class SpikeBlueRight extends LinearOpMode {
                     sleep(500);
                     intake.Autonomous5();;
                     sleep(500);
-                    intake.Autonomous6();
+                    intake.Autonomous6();*/
                     R.drive.followTrajectorySequence(Parking);
                     break;
                 case NOT_FOUND:

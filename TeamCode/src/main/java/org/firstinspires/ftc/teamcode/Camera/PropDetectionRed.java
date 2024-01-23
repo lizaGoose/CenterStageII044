@@ -31,12 +31,12 @@ public class PropDetectionRed extends OpenCvPipeline {
 
     static double PERCENT_COLOR_THRESHOLD = 0.4;
 
-    public PropDetectionRed(Telemetry t) { telemetry = t; }
+    public PropDetectionRed(Telemetry t) { telemetry = t;}
     @Override    public Mat processFrame(Mat input) {
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
-        Scalar lowHSV = new Scalar(10, 100, 20);
+        Scalar lowHSV = new Scalar(10, 150, 20);
         Scalar highHSV = new Scalar(30, 255, 255);
 
         Core.inRange(mat, lowHSV, highHSV, mat);

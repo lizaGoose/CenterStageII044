@@ -45,7 +45,7 @@ public class Scorer extends Robot {
             scorer.setPosition(0);
         }
         if(t > 20 && t < 26) {
-            double pos = lift1.getCurrentPosition() + 300;
+            double pos = lift1.getCurrentPosition() + 500;
 
             double error3 = pos - lift1.getCurrentPosition();
             if (error3 > 0) {

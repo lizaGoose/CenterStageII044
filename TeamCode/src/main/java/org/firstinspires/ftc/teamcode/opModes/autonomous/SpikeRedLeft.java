@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Camera.PropDetection;
 import org.firstinspires.ftc.teamcode.Camera.PropDetectionRed;
+import org.firstinspires.ftc.teamcode.Modules.Goose;
 import org.firstinspires.ftc.teamcode.Modules.SpikeScorer;
 import org.firstinspires.ftc.teamcode.Robot1;
 
@@ -23,14 +24,14 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 @Autonomous(group = "drive")
 public class SpikeRedLeft extends LinearOpMode {
     Robot1 R;
-    SpikeScorer scorer;
+    Goose scorer;
     OpenCvCamera cam;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         R = new Robot1(this);
-        scorer = new SpikeScorer(this);
+        scorer = new Goose(this);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         TrajectorySequence firstCenter = R.drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(6, 31, 0))
@@ -72,16 +73,16 @@ public class SpikeRedLeft extends LinearOpMode {
             switch (detector.getLocation()) {
                 case LEFT:
                     R.drive.followTrajectorySequence(firstRight);
-                    scorer.scor();
+                    //scorer.scor();
                     break;
                 case RIGHT:
                     R.drive.followTrajectorySequence(firstLeft);
-                    scorer.scor();
+                    //scorer.scor();
 
                     break;
                 case CENTER:
                     R.drive.followTrajectorySequence(firstCenter);
-                    scorer.scor();
+                   // scorer.scor();
                     break;
                 case NOT_FOUND:
             }
