@@ -39,7 +39,7 @@ public class IntakeBlueRight extends LinearOpMode {
                 //.splineToLinearHeading(new Pose2d(0,-2,Math.toRadians(0)),Math.toRadians(0))
                 //  .strafeRight(20)
                 .build();
-        TrajectorySequence firstLeft = R.drive.trajectorySequenceBuilder(new Pose2d())
+       /* TrajectorySequence firstLeft = R.drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(3, -29, 0))
                 .build();
         TrajectorySequence firstRight = R.drive.trajectorySequenceBuilder(new Pose2d())
@@ -48,21 +48,33 @@ public class IntakeBlueRight extends LinearOpMode {
         TrajectorySequence SteakRunning = R.drive.trajectorySequenceBuilder(firstCenter.end())
                 .lineToLinearHeading(new Pose2d(-30, -34, 0))
                 .build();
+                */
         TrajectorySequence UnderFermRunning = R.drive.trajectorySequenceBuilder(firstCenter.end())
                 .lineToLinearHeading(new Pose2d(-22, -52, 0))
-                .addDisplacementMarker(20,() -> {
-                    intake.Steak();
-                })
-                .waitSeconds(2)
-                .addTemporalMarker(5,() -> {
-                    intake.intikeWhileRunning();
-                })
+//                .addDisplacementMarker(20,() -> {
+//                    intake.Steak();
+//                })
+//                .waitSeconds(2)
+//                .addTemporalMarker(5,() -> {
+//                    intake.intikeWhileRunning();
+//                })
                 .lineToLinearHeading(new Pose2d(48, -56, 0))
+
+                .lineToLinearHeading(new Pose2d(92, -28.5, 0))
+
+                .lineToLinearHeading(new Pose2d(48, -56, 0))
+
+                .lineToLinearHeading(new Pose2d(-22, -52, 0))
+
+                .lineToLinearHeading(new Pose2d(48, -56, 0))
+
+                .lineToLinearHeading(new Pose2d(92, -28.5, 0))
+
                 .build();
-        TrajectorySequence BackDropRunning = R.drive.trajectorySequenceBuilder(UnderFermRunning.end())
-                .addDisplacementMarker(() -> {
-                    intake.stopIntake();
-                })
+       /* TrajectorySequence BackDropRunning = R.drive.trajectorySequenceBuilder(UnderFermRunning.end())
+//                .addDisplacementMarker(() -> {
+//                    intake.stopIntake();
+//                })
                 .lineToLinearHeading(new Pose2d(92, -28.5, 0))
                 .build();
         TrajectorySequence Parking = R.drive.trajectorySequenceBuilder(BackDropRunning.end())
@@ -70,13 +82,21 @@ public class IntakeBlueRight extends LinearOpMode {
                 .build();
         TrajectorySequence UnderFermRunningLeft = R.drive.trajectorySequenceBuilder(firstLeft.end())
                 .lineToLinearHeading(new Pose2d(-22, -52, 0))
-                .addDisplacementMarker(54,() -> {
-                    intake.Steak();
-                })
+//                .addDisplacementMarker(54,() -> {
+//                    intake.Steak();
+//                })
+                .lineToLinearHeading(new Pose2d(92, -28.5, 0))
                 .lineToLinearHeading(new Pose2d(56, -56, 0))
+
+                .lineToLinearHeading(new Pose2d(92, -19.5, 0))
+                .lineToLinearHeading(new Pose2d(-22, -52, 0))
+
+
                 .build();
         TrajectorySequence BackDropRunningLeft = R.drive.trajectorySequenceBuilder(UnderFermRunningLeft.end())
                 .lineToLinearHeading(new Pose2d(92, -19.5, 0))
+                .lineToLinearHeading(new Pose2d(-22, -52, 0))
+
                 .build();
         TrajectorySequence ParkingLeft = R.drive.trajectorySequenceBuilder(BackDropRunningLeft.end())
                 .lineToLinearHeading(new Pose2d(70, -15, 0))
@@ -85,10 +105,21 @@ public class IntakeBlueRight extends LinearOpMode {
         TrajectorySequence UnderFermRunningRight = R.drive.trajectorySequenceBuilder(firstRight.end())
                 .lineToLinearHeading(new Pose2d(-20, -30, 0))
                 .lineToLinearHeading(new Pose2d(-22, -52, 0))
-                .addDisplacementMarker(11,() -> {
-                    intake.Steak();
-                })
+//                .addDisplacementMarker(11,() -> {
+//                    intake.Steak();
+//                })
                 .lineToLinearHeading(new Pose2d(53, -56, 0))
+                .lineToLinearHeading(new Pose2d(92, -26, 0))
+
+                .lineToLinearHeading(new Pose2d(53, -56, 0))
+                .lineToLinearHeading(new Pose2d(-22, -52, 0))
+
+                .lineToLinearHeading(new Pose2d(53, -56, 0))
+                .lineToLinearHeading(new Pose2d(92, -26, 0))
+
+                .lineToLinearHeading(new Pose2d(80, -30, 0))
+                .lineToLinearHeading(new Pose2d(80, -45, 0))
+
                 .build();
         TrajectorySequence BackDropRunningRight = R.drive.trajectorySequenceBuilder(UnderFermRunningRight.end())
                 .lineToLinearHeading(new Pose2d(92, -26, 0))
@@ -96,7 +127,7 @@ public class IntakeBlueRight extends LinearOpMode {
         TrajectorySequence ParkingRight = R.drive.trajectorySequenceBuilder(BackDropRunningRight.end())
                 .lineToLinearHeading(new Pose2d(80, -30, 0))
                 .lineToLinearHeading(new Pose2d(80, -45, 0))
-                .build();
+                .build();*/
 
         int cameraMonitorViewId = hardwareMap.appContext
                 .getResources().getIdentifier("cameraMonitorViewId",
@@ -124,10 +155,10 @@ public class IntakeBlueRight extends LinearOpMode {
 
             switch (detector.getLocation()) {
                 case LEFT:
-                    R.drive.followTrajectorySequence(firstRight);
-                    scorer.scor();
+              /*      R.drive.followTrajectorySequence(firstRight);
+                    //scorer.scor();
                     R.drive.followTrajectorySequence(UnderFermRunningRight);
-                    R.drive.followTrajectorySequence(BackDropRunningRight);
+                    R.drive.followTrajectorySequence(BackDropRunningRight);*/
                     /*intake.Autonomous2();
                     sleep(1000);
                     intake.Autonomoys7();
@@ -137,14 +168,14 @@ public class IntakeBlueRight extends LinearOpMode {
                     intake.Autonomous5();;
                     sleep(500);
                     intake.Autonomous6();*/
-                    R.drive.followTrajectorySequence(ParkingRight);
+                   // R.drive.followTrajectorySequence(ParkingRight);
                     break;
 
                 case RIGHT:
-                    R.drive.followTrajectorySequence(firstLeft);
-                    scorer.scor();
+                  /*  R.drive.followTrajectorySequence(firstLeft);
+                    //scorer.scor();
                     R.drive.followTrajectorySequence(UnderFermRunningLeft);
-                    R.drive.followTrajectorySequence(BackDropRunningLeft);
+                    R.drive.followTrajectorySequence(BackDropRunningLeft);*/
                     /*intake.Autonomous2();
                     sleep(1000);
                     intake.Autonomoys3();
@@ -154,14 +185,14 @@ public class IntakeBlueRight extends LinearOpMode {
                     intake.Autonomous5();;
                     sleep(500);
                     intake.Autonomous6();*/
-                    R.drive.followTrajectorySequence(ParkingLeft);
+                   // R.drive.followTrajectorySequence(ParkingLeft);
 
                     break;
                 case CENTER:
                     R.drive.followTrajectorySequence(firstCenter);
-                    scorer.scor();
+                    //scorer.scor();
                     R.drive.followTrajectorySequence(UnderFermRunning);
-                    R.drive.followTrajectorySequence(BackDropRunning);
+                  //  R.drive.followTrajectorySequence(BackDropRunning);
                     /*intake.Autonomous2();
                     sleep(1000);
                     intake.Autonomoys3();
@@ -171,7 +202,7 @@ public class IntakeBlueRight extends LinearOpMode {
                     intake.Autonomous5();;
                     sleep(500);
                     intake.Autonomous6();*/
-                    R.drive.followTrajectorySequence(Parking);
+                  //  R.drive.followTrajectorySequence(Parking);
                     break;
                 case NOT_FOUND:
             }
