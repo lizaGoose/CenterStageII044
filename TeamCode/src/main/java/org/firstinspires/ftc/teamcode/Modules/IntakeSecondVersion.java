@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class IntakeSecondVersion extends Robot {
     CRServo intake;
 
-    Servo mover, perekid1, perekid2, scor;
+    Servo mover, perekid1, perekid2, scor, wall, hook;
     Intake intk;
     public boolean PixeIsIn = false;
     Lift lift;
@@ -22,12 +22,14 @@ public class IntakeSecondVersion extends Robot {
     Gamepad gamepad1;
     DcMotor zahvat,lift1, lift2;;
 
-    double n = 50, k = 0, d = 0, e = 0, t = 0, z = 0, y = 0, a = 0, b = 0, pos2 = 400, pos3 = 200,kp = 0.8, c = 0;
+    double n = 50, k = 0, d = 0, e = 0, t = 0, z = 0, y = 0, a = 0, b = 0, pos2 = 400, pos3 = 200,kp = 0.8, c = 0, posInit = 0, off = 0,
+            on = 0, hookUp = 0, hookDown = 0, checkIntake = 0, timeIntake = 75, f = 0, g = 0;
     DigitalChannel lineSensor, lineSensor2;
     DcMotor vidvizh;
 
     public IntakeSecondVersion(LinearOpMode opMode) {
         super(opMode);
+        Lift lifts = new Lift(opMode);
         gamepad1 = opMode.gamepad1;
         zahvat = hardwareMap.get(DcMotor.class, "zahvat");
         zahvat.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -57,6 +59,9 @@ public class IntakeSecondVersion extends Robot {
         lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift = new Lift(opMode);
+
+        wall = hardwareMap.get(Servo.class, "servoWall");
+        hook = hardwareMap.get(Servo.class, "servoHook");
         // intk = new Intake(opMode);
     }
 
@@ -134,6 +139,64 @@ public class IntakeSecondVersion extends Robot {
         telemetry.addData("lift", lift1.getCurrentPosition());
         telemetry.update();
 
+        if (gamepad2.dpad_right){
+            posInit = lift1.getCurrentPosition();
+        }
+        if (gamepad1.dpad_left){
+            on+=1;
+        }
+        if (gamepad1.dpad_right){
+            off+=1;
+        }
+        if (on > 0){
+            double error = 600 - lift1.getCurrentPosition();
+            if (error > 0) {
+                error = 600 - lift1.getCurrentPosition();
+                lift1.setPower(error*kp);
+                lift2.setPower(error*kp);
+
+            } else {
+                g+=1;
+                if(g < 10) {
+                    perekid2.setPosition(1);
+                    perekid1.setPosition(0);
+                }
+                else if(g<20){
+                    mover.setPosition(1);
+                }else{
+                    scor.setPosition(0);
+                    g = 0;
+                    on = 0;
+                    lift.d = 0;
+                    lift.f = 0;
+                }
+            }
+        }
+        if (off > 0){
+            double error1 = posInit - lift1.getCurrentPosition();
+            if (error1 < 0) {
+                error1 = posInit - lift1.getCurrentPosition();
+                lift1.setPower(error1 * kp);
+                lift2.setPower(error1 * kp);
+
+            } else {
+                g+=1;
+                if(g < 10) {
+
+                    mover.setPosition(0.68);
+                    scor.setPosition(0);
+                }
+                else if(g<20){
+                    perekid2.setPosition(0);
+                    perekid1.setPosition(1);
+                }else{
+                    g = 0;
+                    off = 0;
+                    lift.d = 0;
+                    lift.f = 0;
+                }
+            }
+        }
        /* if(lineSensor2.getState() != true){
             n +=1;
         }*/
@@ -169,7 +232,7 @@ public class IntakeSecondVersion extends Robot {
             k = 0;
             t = 0;
             e = 0;
-            mover.setPosition(0.39);
+            mover.setPosition(0.68);
 
         }
 
@@ -216,7 +279,10 @@ public class IntakeSecondVersion extends Robot {
         //}
         if (b > 0&&b < 5){
             b+=1;
-            mover.setPosition(0.39);
+            scor.setPosition(0.5);
+        } else if ( b > 5 && b < 10) {
+            b +=1;
+            mover.setPosition(0.68);
             scor.setPosition(0);
         }
        /* else if(b>5&&b<30){
@@ -231,19 +297,104 @@ public class IntakeSecondVersion extends Robot {
             lift.teleop();
 
         }
+        if (vidvizh.getCurrentPosition() >= -20 && gamepad1.right_stick_y == 0) {
+            hook.setPosition(0.35);
+        }
+        else {
+            hook.setPosition(0.15);
+        }
+
+        if (vidvizh.getCurrentPosition() >= -10) {
+            if (gamepad1.right_stick_y > 0) {
+                vidvizh.setPower(0);
+            }
+            else if(gamepad1.right_stick_y <= 0){
+                vidvizh.setPower(gamepad1.right_stick_y);
+            }
+        }
+        else{
+            vidvizh.setPower(gamepad1.right_stick_y);
+        }
+
+        if (vidvizh.getCurrentPosition() >=-300 && vidvizh.getCurrentPosition() <= 0){
+            wall.setPosition(0.7);
+        }
+        else if(vidvizh.getCurrentPosition() < -300){
+            wall.setPosition(0.2);
+        }
         if (d > 0) {
-            SmartButton();
+            SmartButton2();
         } else {
             zahvat.setPower(0);
           //  vidvizh.setPower(gamepad1.right_stick_y);
 
-            if (vidvizh.getCurrentPosition() <= 0 && gamepad1.right_stick_y == 0 && vidvizh.getCurrentPosition() > -500){
-                vidvizh.setPower(0.4);
+           /* if (vidvizh.getCurrentPosition() <= 0 && gamepad1.right_stick_y == 0 && vidvizh.getCurrentPosition() > -500){
+                off +=1;
+               // vidvizh.setPower(0.4);
+            }
+            else if(gamepad1.right_stick_y < 0) {
+                off +=1;
+                //vidvizh.setPower(gamepad1.right_stick_y);
+            }
+            else if (gamepad1.right_stick_y > 0){
+                on +=1;
             }
             else {
-                vidvizh.setPower(gamepad1.right_stick_y);
-            }
+                on = 0;
+                off = 0;
+                vidvizh.setPower(0);
+            }*/
+          /*  if (off > 0){
+               off +=1;
+               if(vidvizh.getCurrentPosition() >= -150 && vidvizh.getCurrentPosition() <= -70){
+                   wall.setPosition(0.2);
+               }
+               else {
+                   if(vidvizh.getCurrentPosition() <= -50 && gamepad1.right_stick_y == 0 && vidvizh.getCurrentPosition() > -500){
+                       vidvizh.setPower(0.4);
+                       on = 0;
+                   }
+                   else{
+                       vidvizh.setPower(gamepad1.right_stick_y);
+                   }
+                  /* else {
+                       hookUp +=1;
+                       if (hookUp > 0 && hookUp < 10) {
+                           hook.setPosition(1);
+                       }
+                       else {
+                           hookUp = 0;
+                           vidvizh.setPower(gamepad1.right_stick_y);
+                       }
+                   }*/
+               //}
+           // }
+           /* if (on > 0){
+                on +=1;
+                if(on < 10){
 
+                    wall.setPosition(0.7);
+                }
+                else {
+                    if(vidvizh.getCurrentPosition() <= 0 && gamepad1.right_stick_y == 0 && vidvizh.getCurrentPosition() > -500){
+                        vidvizh.setPower(0.4);
+                        off = 0;
+                    }
+                    else{
+                        vidvizh.setPower(gamepad1.right_stick_y);
+                    }*/
+                  /*  else {
+                        hookUp +=1;
+                        if (hookUp > 0 && hookUp < 10) {
+                            hook.setPosition(1);
+                        }
+                        else {
+                            hookUp = 0;
+                            vidvizh.setPower(gamepad1.right_stick_y);
+                        }
+                    }*/
+                //}
+          //  }
             if (gamepad2.x) {
              //ниже меньше
                 //scor.scorer.setPosition(0);
@@ -252,17 +403,23 @@ public class IntakeSecondVersion extends Robot {
             if (gamepad2.b) {
                 // scor.scorStart();
 
-                perekid2.setPosition(0.98);
-                perekid1.setPosition(0.02);
+              //  perekid2.setPosition(0);
+              //  perekid1.setPosition(1);
 
             }
 
             if (gamepad1.left_bumper) {
                 intake.setPower(-1);
                 zahvat.setPower(1);
+                d = 0;
+                timeIntake = 0;
+                checkIntake = 0;
             } else if (gamepad1.right_bumper) {
                 intake.setPower(1);
                 zahvat.setPower(-1);
+                d = 0;
+                timeIntake = 0;
+                checkIntake = 0;
             } else {
                 intake.setPower(0);
                 zahvat.setPower(0);
@@ -295,6 +452,12 @@ public class IntakeSecondVersion extends Robot {
            // zahvat.setPower(1);
         }*/
     }
+    public void SecondDriverButtonLeft(){
+
+    }
+    public void SecondDriverButtonRight(){
+
+    }
 
     public void SmartButton() {
         if (lineSensor.getState() != true && lineSensor2.getState() != true) {
@@ -316,10 +479,9 @@ public class IntakeSecondVersion extends Robot {
             if (lineSensor.getState() == true && lineSensor2.getState() == true) {
                 e = 0;
                 scor.setPosition(0);
-                mover.setPosition(0.39);
-                    perekid2.setPosition(0.98);
-                    perekid1.setPosition(0.02);
-                intake.setPower(-1);
+                mover.setPosition(0.68);
+                perekid2.setPosition(0.4);
+                perekid1.setPosition(0.6);
                 zahvat.setPower(1);
             }
             if (lineSensor2.getState() != true) {
@@ -347,7 +509,7 @@ public class IntakeSecondVersion extends Robot {
 
             } else {
                 if (a == 0) {
-                    if (lift1.getCurrentPosition() >= 0){
+                    if (lift1.getCurrentPosition() >= posInit){
                         lift1.setPower(-1);
                         lift2.setPower(-1);
                     }
@@ -466,6 +628,73 @@ public class IntakeSecondVersion extends Robot {
             }*/
         }
     }
+    public void SmartButton2(){
+        c+=1;
+        if (c< 10){
+            scor.setPosition(0);
+            mover.setPosition(0.68);
+        }
+        else{
+            double error = posInit - lift1.getCurrentPosition();
+            if (error < 0) {
+                lift1.setPower(error * kp);
+                lift2.setPower(error * kp);
+            } else {
+                c = 0;
+                perekid2.setPosition(0);
+                perekid1.setPosition(1);
+            }
+        }
+        vidvizh.setPower(gamepad1.right_stick_y);
+        if(timeIntake>0){
+            vidvizh.setPower(gamepad1.right_stick_y);
+            timeIntake +=1;
+
+            if (timeIntake < 150){
+                zahvat.setPower(1);
+
+            }
+            else {
+                zahvat.setPower(0);
+                timeIntake = 0;
+            }
+        }
+        if(lineSensor2.getState() != true){
+            checkIntake +=1;
+            vidvizh.setPower(gamepad1.right_stick_y);
+        }
+
+        if (checkIntake ==0){
+            vidvizh.setPower(gamepad1.right_stick_y);
+            zahvat.setPower(1);
+        }
+       else if (checkIntake > 10){
+
+            if (vidvizh.getCurrentPosition() < -200 && gamepad1.right_stick_y == 0){
+                vidvizh.setPower(1);
+                zahvat.setPower(0);
+            }
+            else if ( vidvizh.getCurrentPosition() > -200 && vidvizh.getCurrentPosition() < 0 && gamepad1.right_stick_y == 0){
+                wall.setPosition(0.7);
+                vidvizh.setPower(1);
+                zahvat.setPower(0);
+
+            }
+            else{
+                vidvizh.setPower(gamepad1.right_stick_y);
+               if(lineSensor2.getState() == true){
+                    checkIntake = 0;
+                    d = 0;
+                    timeIntake += 1;
+                  //  zahvat.setPower(0);
+                }
+               else {
+
+                       zahvat.setPower(1);
+               }
+            }
+        }
+    }
     public void Autonomous(){
 
         ElapsedTime time = new  ElapsedTime();
@@ -490,23 +719,31 @@ public class IntakeSecondVersion extends Robot {
         }
     }
     public void Autonomous2(){
-        perekid2.setPosition(0.55);
-        perekid1.setPosition(0.45);
+        perekid2.setPosition(1);
+        perekid1.setPosition(0);
 
     }
     public void Autonomoys3(){
-        mover.setPosition(0.73);
+        mover.setPosition(1);
 
     }
     public void Autonomous4(){
-        scor.setPosition(0);
+        scor.setPosition(0.5);
     }
     public void Autonomous5(){
-        mover.setPosition(0.39);
+        mover.setPosition(0.68);
     }
     public void Autonomous6(){
-        perekid2.setPosition(0.98);
-        perekid1.setPosition(0.02);
+        perekid2.setPosition(0);
+        perekid1.setPosition(1);
+    }
+    public void OpenScor(){
+        scor.setPosition(0);
+    }
+    public void MovSetCenter(){
+        scor.setPosition(0);
+        opMode.sleep(300);
+        mover.setPosition(0.68);
     }
     public void Autonomoys7(){
         mover.setPosition(0.08);
@@ -549,24 +786,41 @@ public class IntakeSecondVersion extends Robot {
         zahvat.setPower(0);
     }
     public void lift(){
-        double error2 = 250 - lift1.getCurrentPosition();
-        while (error2 > 0) {
+        double error2 = 350 - lift1.getCurrentPosition();
+        if (error2 > 0) {
             lift1.setPower(error2 * kp);
             lift2.setPower(error2 * kp);
-            error2 = 250 - lift1.getCurrentPosition();
+            error2 = 350 - lift1.getCurrentPosition();
         }
             lift1.setPower(0);
             lift2.setPower(0);
     }
     public void lift2(){
         double error2 = 0 - lift1.getCurrentPosition();
-        while (error2 < 0) {
+        if (error2 < 0) {
             lift1.setPower(error2 * kp);
             lift2.setPower(error2 * kp);
             error2 = 0 - lift1.getCurrentPosition();
         }
         lift1.setPower(0);
         lift2.setPower(0);
+    }
+
+    public void vidv(){
+        vidvizh.setTargetPosition(-2000);
+    }
+    public void vidv2(){
+        vidvizh.setTargetPosition(20);
+    }
+
+    public void IntakePixels(){
+       if(lineSensor.getState() != true){
+           f+=1;
+        }
+       if (f >0){
+           zahvat.setPower(0);
+       }
+        zahvat.setPower(1);
     }
     public void intikeWhileRunning(){
         zahvat.setPower(1);

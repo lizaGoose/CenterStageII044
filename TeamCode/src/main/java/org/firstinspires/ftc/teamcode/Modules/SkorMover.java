@@ -22,26 +22,29 @@ public class SkorMover extends Robot {
 
         if (gamepad2.right_bumper) {
             t += 1;
-            scor.setPosition(0.8);
-            mover.setPosition(0.73);
+          //  scor.setPosition(0);
+         //   mover.setPosition(0.73);
+           mover.setPosition(1);
         }
         if (gamepad2.right_trigger > 0.3 ) {
             t += 1;
             // t = 10;
-            scor.setPosition(0.8);
-            mover.setPosition(0.08);
+           // scor.setPosition(0.4);
+            mover.setPosition(0.35);
+
+           // mover.setPosition(0.08);
         }
-        if (gamepad2.right_stick_y > 0.7 && gamepad2.right_stick_y < -0.7){
-            t += 1;
-            mover.setPosition(0.39);
+        if (gamepad2.right_stick_y > 0 || gamepad2.right_stick_y < 0){
+            t = 0;
         }
-      /*  if(gamepad2.x){
+      /*  if(gamepad*2.x){
             t += 1;
             scor.setPosition(0.5);
         }*/
-        if(t == 0){
-            mover.setPosition(0.39);
-        }
+       /* if(t == 0){
+
+            mover.setPosition(0.68);
+        }*/
 
 
     }

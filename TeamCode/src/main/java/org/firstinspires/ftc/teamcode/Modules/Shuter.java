@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 
 public class Shuter extends Robot {
     Servo shuter, equalizer;
-    double taps = 15, n = 0;
+    double taps = 45, n = 0;
     public Shuter(LinearOpMode opMode) {
         super(opMode);
         shuter = hardwareMap.get(Servo.class, "Shuter");
@@ -15,20 +15,14 @@ public class Shuter extends Robot {
     }
     public void teleop(){
         taps+=1;
-        if (gamepad1.b){
-            equalizer.setPosition(0.5);
-        }
-        if (gamepad1.a){
-            equalizer.setPosition(0.7);
-        }
         if (gamepad1.x){
             taps = 0;
         }
-        if(taps <=6){
-            shuter.setPosition(0.3);
+        if(taps <=30){
+            shuter.setPosition(0);
         }
-        else if(6 < taps && taps < 10){
-            shuter.setPosition(0.45);
+        else if(30 < taps && taps < 40){
+            shuter.setPosition(0.5);
         }
       /*  if (taps % 2 == 0 && taps !=0){
             ;

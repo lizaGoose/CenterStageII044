@@ -36,15 +36,16 @@ public class Scorer extends Robot {
 
     public void teleop() {
         t += 1;
-        if (gamepad2.a) {
-            scorer.setPosition(0.8);
-        }
         if (gamepad2.y) {
-            t = 0;
-            // t = 10;
             scorer.setPosition(0);
         }
-        if(t > 20 && t < 26) {
+        if (gamepad2.a||gamepad2.x) {
+            t = 0;
+            // t = 10;
+            scorer.setPosition(0.5);
+        }
+
+       /* if(t > 20 && t < 26) {
             double pos = lift1.getCurrentPosition() + 500;
 
             double error3 = pos - lift1.getCurrentPosition();
@@ -53,17 +54,17 @@ public class Scorer extends Robot {
                 lift1.setPower(error3 * 0.4);
                 lift2.setPower(error3 * 0.4);
             }
-            else{
+            else{*/
                 // mover.setPosition(0.39);
-            }
+           // }
             //perekid2.setPosition(0.98);
             //perekid1.setPosition(0.02);
-        }
+       // }
         if (gamepad2.dpad_up) {
-            scorer.setPosition(0.01);
+            scorer.setPosition(0);
         }
         if (gamepad2.dpad_down) {
-            scorer.setPosition(0.8);
+            scorer.setPosition(0.4);
         }
 
       /*
