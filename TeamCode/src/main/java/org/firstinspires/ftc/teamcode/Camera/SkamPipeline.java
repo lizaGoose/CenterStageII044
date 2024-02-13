@@ -7,7 +7,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
-public class PropDetectionRed extends OpenCvPipeline {
+public class SkamPipeline extends OpenCvPipeline {
     Telemetry telemetry;
     Mat mat = new Mat();
     public double p=0;
@@ -32,7 +32,7 @@ public class PropDetectionRed extends OpenCvPipeline {
 
     static double PERCENT_COLOR_THRESHOLD = 0.4;
 
-    public PropDetectionRed(Telemetry t) { telemetry = t;}
+    public SkamPipeline(Telemetry t) { telemetry = t;}
     @Override    public Mat processFrame(Mat input) {
         p+=1;
 
@@ -68,7 +68,7 @@ public class PropDetectionRed extends OpenCvPipeline {
         boolean propCenter = centerValue > PERCENT_COLOR_THRESHOLD;
         boolean propRight = rightValue > PERCENT_COLOR_THRESHOLD;
 
-         if (Math.round(leftValue * 100) > 10 ) {
+        /* if (Math.round(leftValue * 100) > 10 ) {
             location = Location.LEFT;
             telemetry.addData("Prop Location", "left");
         }
@@ -80,22 +80,22 @@ public class PropDetectionRed extends OpenCvPipeline {
          else{
              location = Location.CENTER;
              telemetry.addData("Prop Location", "center");
-         }
-        /*if (p > 0 && p <=15){
-            location = PropDetectionRed.Location.LEFT;
+         }*/
+        if (p > 0 && p <=15){
+            location = Location.LEFT;
             telemetry.addData("Prop Location", "left");
         }
         else if(p > 15 && p <= 30){
-            location = PropDetectionRed.Location.RIGHT;
+            location = Location.RIGHT;
             telemetry.addData("Prop Location", "right");
         }
         else if(p> 30 && p <= 45){
-            location = PropDetectionRed.Location.CENTER;
+            location = Location.CENTER;
             telemetry.addData("Prop Location", "center");
         }
         else if(p>45){
             p = 0;
-        }*/
+        }
 
         telemetry.update();
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);

@@ -37,7 +37,7 @@ public class Scorer extends Robot {
     public void teleop() {
         t += 1;
         if (gamepad2.y) {
-            scorer.setPosition(0);
+            scorer.setPosition(0.2);
         }
         if (gamepad2.a||gamepad2.x) {
             t = 0;

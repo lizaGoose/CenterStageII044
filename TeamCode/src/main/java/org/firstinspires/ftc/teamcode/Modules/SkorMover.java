@@ -24,12 +24,14 @@ public class SkorMover extends Robot {
             t += 1;
           //  scor.setPosition(0);
          //   mover.setPosition(0.73);
+            scor.setPosition(0.5);
            mover.setPosition(1);
         }
         if (gamepad2.right_trigger > 0.3 ) {
             t += 1;
             // t = 10;
            // scor.setPosition(0.4);
+            scor.setPosition(0.5);
             mover.setPosition(0.35);
 
            // mover.setPosition(0.08);

@@ -37,7 +37,7 @@ public class Goose {
         }
 
         if (gamepad1.b){
-            podves2.setPosition(0.7);
+            podves2.setPosition(0.4);
         }
     }
 }
