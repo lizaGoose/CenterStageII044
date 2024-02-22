@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Camera.PropDetection;
-import org.firstinspires.ftc.teamcode.Camera.SkamPipeline;
+import org.firstinspires.ftc.teamcode.Camera.PropDetectionRed;
 import org.firstinspires.ftc.teamcode.Modules.IntakeSecondVersion;
 import org.firstinspires.ftc.teamcode.Modules.SpikeScorer;
 
@@ -28,7 +28,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 @Config
 @Autonomous(group = "drive")
-public class AutoTestBlue extends LinearOpMode {
+public class AutoRedTest extends LinearOpMode {
     Robot1 R;
     IntakeSecondVersion intake;
     SpikeScorer scorer;
@@ -68,88 +68,81 @@ public class AutoTestBlue extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        TrajectorySequence firstCenter = R.drive.trajectorySequenceBuilder(new Pose2d(-38, 61.5, 0))
-                .lineToLinearHeading(new Pose2d(-44, 21, Math.toRadians(0))) // senter
+        TrajectorySequence firstCenter = R.drive.trajectorySequenceBuilder(new Pose2d())
+                .lineToLinearHeading(new Pose2d(-44, -27, Math.toRadians(0))) // senter
                 .waitSeconds(0.3)
-
-                .splineToLinearHeading(new Pose2d(-60, 12, 0), Math.toRadians(90)) // left, senter
+                .lineToLinearHeading(new Pose2d(-60, -12, 0))
                 .waitSeconds(0.9)
 
                 .waitSeconds(0.2)
 
 
-                /*.lineToLinearHeading(new Pose2d(36, 12, 0))
-                .lineToLinearHeading(new Pose2d(49, 34, 0)) // center
-
+                .lineToLinearHeading(new Pose2d(49, -34, 0))
                 .waitSeconds(0.5)
-                .lineToLinearHeading(new Pose2d(36, 12, 0))
-                .lineToLinearHeading(new Pose2d(-50, 12, 0))
-                .splineToLinearHeading(new Pose2d(-60, 12, 0), Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .lineToLinearHeading(new Pose2d(-50, -12, 0))
+                .splineToLinearHeading(new Pose2d(-60, -12, 0), Math.toRadians(-90))
                 .waitSeconds(0.6)
-                .lineToLinearHeading(new Pose2d(36, 12, 0))
-                .lineToLinearHeading(new Pose2d(49, 34, 0))
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .lineToLinearHeading(new Pose2d(49, -34, 0))
                 .waitSeconds(0.5)
 
-                .lineToLinearHeading(new Pose2d(42, 14, 0))
+                .lineToLinearHeading(new Pose2d(42, -14, 0))
 
-*/
                 .build();
 
-        TrajectorySequence firstLeft = R.drive.trajectorySequenceBuilder(new Pose2d(-38, 61.5, 0))
-                .lineToLinearHeading(new Pose2d(-33, 32, 0)) // left
-                //.lineToLinearHeading(new Pose2d(-56.4, 32, 0)) // right
+
+        TrajectorySequence firstLeft = R.drive.trajectorySequenceBuilder(new Pose2d())
+                .lineToLinearHeading(new Pose2d(-33, -32, 0)) // left
                 .waitSeconds(0.3)
-                .lineToLinearHeading(new Pose2d(-45, 32, 0))
-                .splineToLinearHeading(new Pose2d(-60, 12, 0), Math.toRadians(-90)) // left, senter
+                .lineToLinearHeading(new Pose2d(-60, -12, 0))
                 .waitSeconds(0.9)
-
-                /*.splineToLinearHeading(new Pose2d(36, 12, 0), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(49, 41, 0), Math.toRadians(0)) // left
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .splineToLinearHeading(new Pose2d(49, -41, 0), Math.toRadians(0)) // left
                 .waitSeconds(0.5)
-                .lineToLinearHeading(new Pose2d(36, 12, 0))
-                .lineToLinearHeading(new Pose2d(-50, 12, 0))
-                .splineToLinearHeading(new Pose2d(-60, 12, 0), Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .lineToLinearHeading(new Pose2d(-50, -12, 0))
+                .splineToLinearHeading(new Pose2d(-60, -12, 0), Math.toRadians(-90))
                 .waitSeconds(0.6)
-                .splineToLinearHeading(new Pose2d(36, 12, 0), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(49, 34, 0), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .lineToLinearHeading(new Pose2d(49, -34, 0))
                 .waitSeconds(0.5)
 
-                .lineToLinearHeading(new Pose2d(42, 14, 0))
-
-*/
+                .lineToLinearHeading(new Pose2d(42, -14, 0))
                 .build();
-        TrajectorySequence firstRight = R.drive.trajectorySequenceBuilder(new Pose2d(-38, 61.5, 0))
-                .lineToLinearHeading(new Pose2d(-56.4, 32, 0)) // right
-                .waitSeconds(0.3)
 
-                .lineToLinearHeading(new Pose2d(-60, 12, 0))
+        TrajectorySequence firstRight = R.drive.trajectorySequenceBuilder(new Pose2d())
+                .lineToLinearHeading(new Pose2d(-56.4, -32, 0)) // right
+                .waitSeconds(0.3)
+                .lineToLinearHeading(new Pose2d(-60, -12, 0))
                 .waitSeconds(0.9)
 
                 .waitSeconds(0.2)
 
 
-                /*.splineToLinearHeading(new Pose2d(36, 12, 0), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(49, 30, 0), Math.toRadians(0)) // right
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .splineToLinearHeading(new Pose2d(49, -30, 0), Math.toRadians(0)) // right
                 .waitSeconds(0.5)
-                .lineToLinearHeading(new Pose2d(36, 12, 0))
-                .lineToLinearHeading(new Pose2d(-50, 12, 0))
-                .splineToLinearHeading(new Pose2d(-60, 12, 0), Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .lineToLinearHeading(new Pose2d(-50, -12, 0))
+                .splineToLinearHeading(new Pose2d(-60, -12, 0), Math.toRadians(-90))
                 .waitSeconds(0.6)
-                .splineToLinearHeading(new Pose2d(36, 12, 0), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(49, 34, 0), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(36, -12, 0))
+                .lineToLinearHeading(new Pose2d(49, -34, 0))
                 .waitSeconds(0.5)
 
-                .lineToLinearHeading(new Pose2d(42, 14, 0))
+                .lineToLinearHeading(new Pose2d(42, -14, 0))
 
-*/
                 .build();
+
+
         int cameraMonitorViewId = hardwareMap.appContext
                 .getResources().getIdentifier("cameraMonitorViewId",
                         "id", hardwareMap.appContext.getPackageName());
         cam = OpenCvCameraFactory.getInstance()
                 .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         cam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        PropDetection detector = new PropDetection(telemetry);
+        PropDetectionRed detector = new PropDetectionRed(telemetry);
         cam.setPipeline(detector);
         cam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -169,10 +162,12 @@ public class AutoTestBlue extends LinearOpMode {
 
             switch (detector.getLocation()) {
                 case LEFT:
+
                     R.drive.followTrajectorySequence(firstRight);
                     break;
 
                 case RIGHT:
+
                     R.drive.followTrajectorySequence(firstLeft);
                     break;
                 case CENTER:
@@ -184,8 +179,8 @@ public class AutoTestBlue extends LinearOpMode {
 
 
         }
-
         cam.stopStreaming();
+
 
         while (!isStopRequested() && opModeIsActive());
     }
