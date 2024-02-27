@@ -68,11 +68,11 @@ public class AutoTestBlue extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        TrajectorySequence firstCenter = R.drive.trajectorySequenceBuilder(new Pose2d(-38, 61.5, 0))
-                .lineToLinearHeading(new Pose2d(-44, 21, Math.toRadians(0))) // senter
+        TrajectorySequence firstCenter = R.drive.trajectorySequenceBuilder(new Pose2d())
+                .lineToLinearHeading(new Pose2d(10, 40.5, 0)) // senter
                 .waitSeconds(0.3)
 
-                .splineToLinearHeading(new Pose2d(-60, 12, 0), Math.toRadians(90)) // left, senter
+                .lineToLinearHeading(new Pose2d(-22, 49.5, 0))
                 .waitSeconds(0.9)
 
                 .waitSeconds(0.2)

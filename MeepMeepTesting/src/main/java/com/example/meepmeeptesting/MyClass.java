@@ -15,36 +15,41 @@ public class MyClass {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(38.945723632307676, 38.156578905846143, Math.toRadians(180), Math.toRadians(180), 6.93)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(12, 61.5, 0))
-//                                .lineToLinearHeading(new Pose2d(-44, -27, Math.toRa dians(0))) // senter
-                                .lineToLinearHeading(new Pose2d(11, 35, 0)) // left
-                                 //.lineToLinearHeading(new Pose2d(-56.4, -32, 0)) // right
+                        drive.trajectorySequenceBuilder(new Pose2d(-38, 61.5, 0))
+                                .lineToLinearHeading(new Pose2d(-44, 21, Math.toRadians(0))) // senter
                                 .waitSeconds(0.3)
-//                                .lineToLinearHeading(new Pose2d(-45, -32, 0))
-//                                 .splineToLinearHeading(new Pose2d(-60, -12, 0), Math.toRadians(90)) // left, senter
-                                 //.lineToLinearHeading(new Pose2d(-60, -12, 0))
-                                .waitSeconds(0.9)
 
-                                .waitSeconds(0.2)
+                                .lineToLinearHeading(new Pose2d(-60, 12, 0)) // left, senter
 
+                                /*.lineToLinearHeading(new Pose2d(33, 32, 0))
 
-                                //.splineToConstantHeading(new Vector2d(48, -50), 0)
-                                //.lineToLinearHeading(new Pose2d(36, 12, 0))
-//                                .lineToLinearHeading(new Pose2d(49, -34, 0))
-                                .splineToLinearHeading(new Pose2d(49, 36, 0), Math.toRadians(0)) // left
-                                //.splineToLinearHeading(new Pose2d(49, -30, 0), Math.toRadians(0)) // right
-                                .waitSeconds(0.5)
-                                .lineToLinearHeading(new Pose2d(36, -12, 0))
-                                .lineToLinearHeading(new Pose2d(-50, -12, 0))
-                                .splineToLinearHeading(new Pose2d(-60, -12, 0), Math.toRadians(-90))
-                                .waitSeconds(0.6)
-                                .lineToLinearHeading(new Pose2d(36, -12, 0))
-                                .lineToLinearHeading(new Pose2d(49, -34, 0))
-                                .waitSeconds(0.5)
+                                .lineToLinearHeading(new Pose2d(49, 40, 0))
+                                .lineToLinearHeading(new Pose2d(12, 58, 0))
+                                .lineToLinearHeading(new Pose2d(-53, 58, 0))
+                                .lineToLinearHeading(new Pose2d(-60, 34, 0))
+                                .lineToLinearHeading(new Pose2d(-53, 58, 0))
+                                .lineToLinearHeading(new Pose2d(12, 58, 0))
+                                .lineToLinearHeading(new Pose2d(49, 32, 0))
+                                .lineToLinearHeading(new Pose2d(42, 61, 0)) /*LEFT*/
+                                /*.lineToLinearHeading(new Pose2d(21, 24, 0))
+                                .lineToLinearHeading(new Pose2d(49, 34, 0))
+                                .lineToLinearHeading(new Pose2d(12, 58, 0))
+                                .lineToLinearHeading(new Pose2d(-53, 58, 0))
+                                .lineToLinearHeading(new Pose2d(-60, 34, 0))
+                                .lineToLinearHeading(new Pose2d(-53, 58, 0))
+                                .lineToLinearHeading(new Pose2d(12, 58, 0))
+                                .lineToLinearHeading(new Pose2d(49, 40, 0))
+                                .lineToLinearHeading(new Pose2d(42, 61, 0)) CENTER  */
 
-                                .lineToLinearHeading(new Pose2d(42, -14, 0))
-
-
+                                /*.lineToLinearHeading(new Pose2d(11, 35, 0))
+                                .lineToLinearHeading(new Pose2d(49, 30, 0))
+                                .lineToLinearHeading(new Pose2d(12, 58, 0))
+                                .lineToLinearHeading(new Pose2d(-53, 58, 0))
+                                .lineToLinearHeading(new Pose2d(-60, 34, 0))
+                                .lineToLinearHeading(new Pose2d(-53, 58, 0))
+                                .lineToLinearHeading(new Pose2d(12, 58, 0))
+                                .lineToLinearHeading(new Pose2d(49, 40, 0))
+                                .lineToLinearHeading(new Pose2d(42, 61, 0)) RIGHT */
                                 .build()
                 );
 
